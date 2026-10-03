@@ -1,0 +1,50 @@
+{
+  "name": "linker-map-budget-check",
+  "version": "1.0.0",
+  "description": "Read the map file that GNU ld writes for firmware (arm-none-eabi-gcc, riscv gcc, avr-gcc) and report how flash and RAM are used: regions over budget or nearly full, initialised data that counts in flash and RAM, a stack or heap that the linker does not count, output sections outside every region, the largest objects and archives, and growth against an older map. Each finding has its line in the map and quotes the GNU ld manual. Fetches nothing, no dependencies.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "bin": {
+    "linker-map-budget-check": "bin/linker-map-budget-check.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "docs",
+    "examples",
+    "research",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "test:coverage": "node --test --experimental-test-coverage \"test/*.test.js\"",
+    "check": "node tools/check.mjs",
+    "example": "node tools/example.mjs"
+  },
+  "keywords": [
+    "embedded",
+    "firmware",
+    "linker-map",
+    "gnu-ld",
+    "arm-none-eabi",
+    "memory-budget",
+    "flash",
+    "ram",
+    "stack",
+    "cli"
+  ],
+  "author": "INNERLUXES <info@innerluxes.dev>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/INNERLUXES/linker-map-budget-check.git"
+  },
+  "homepage": "https://innerluxes.dev/software-development/embedded"
+}
