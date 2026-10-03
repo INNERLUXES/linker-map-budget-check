@@ -1,0 +1,311 @@
+Archive member included to satisfy reference by file (symbol)
+
+/opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memcpy-stub.o)
+                              build/display.o (memcpy)
+/opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memset.o)
+                              build/main.o (memset)
+/opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-mallocr.o)
+                              build/ble.o (malloc)
+/opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf.o)
+                              build/ui.o (vsnprintf)
+/opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf_i.o)
+                              /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf.o) (_printf_i)
+/opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-impure.o)
+                              /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-mallocr.o) (_impure_ptr)
+/opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
+                              build/sensor.o (__aeabi_uldivmod)
+
+Discarded input sections
+
+ .text          0x00000000        0x0 build/main.o
+ .data          0x00000000        0x0 build/main.o
+ .bss           0x00000000        0x0 build/main.o
+ .text.uart_read
+                0x00000000        0x0 build/uart.o
+ .text.display_test_pattern
+                0x00000000        0x0 build/display.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x08000000         0x00010000         xr
+RAM              0x20000000         0x00005000         xrw
+CCMRAM           0x10000000         0x00010000         rw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/crti.o
+LOAD /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/crtbegin.o
+LOAD /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/crt0.o
+LOAD build/startup.o
+LOAD build/system.o
+LOAD build/main.o
+LOAD build/sensor.o
+LOAD build/display.o
+LOAD build/font_8x16.o
+LOAD build/ui.o
+LOAD build/ble.o
+LOAD build/uart.o
+LOAD build/hal_gpio.o
+LOAD build/hal_i2c.o
+LOAD build/hal_spi.o
+LOAD build/syscalls.o
+LOAD /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/crtend.o
+LOAD /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/crtn.o
+START GROUP
+LOAD /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a
+LOAD /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/libgcc.a
+LOAD /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libm.a
+END GROUP
+                0x20005000                _estack = (ORIGIN (RAM) + LENGTH (RAM))
+                0x00000200                _Min_Heap_Size = 0x200
+                0x00000400                _Min_Stack_Size = 0x400
+
+.isr_vector     0x08000000      0x188
+                0x08000000                . = ALIGN (0x4)
+ KEEP (*(.isr_vector))
+ .isr_vector    0x08000000      0x188 build/startup.o
+                0x08000000                g_pfnVectors
+                0x08000188                . = ALIGN (0x4)
+
+.text           0x08000188     0x7424
+ *(.text)
+ .text          0x08000188        0x0 /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/crti.o
+ .text          0x08000188       0x74 /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/crtbegin.o
+ *(.text*)
+ .text.Reset_Handler
+                0x080001fc       0x50 build/startup.o
+                0x080001fc                Reset_Handler
+ .text.Default_Handler
+                0x0800024c        0x2 build/startup.o
+                0x0800024c                Default_Handler
+ *fill*         0x0800024e        0x2
+ .text.SystemInit
+                0x08000250       0x5c build/system.o
+                0x08000250                SystemInit
+ .text.SystemClock_Config
+                0x080002ac      0x13c build/system.o
+                0x080002ac                SystemClock_Config
+ .text.main     0x080003e8      0x2c8 build/main.o
+                0x080003e8                main
+ .text.app_tick
+                0x080006b0      0x1f0 build/main.o
+                0x080006b0                app_tick
+ .text.sensor_init
+                0x080008a0      0x120 build/sensor.o
+                0x080008a0                sensor_init
+ .text.sensor_read
+                0x080009c0      0x3b4 build/sensor.o
+                0x080009c0                sensor_read
+ .text.sensor_filter
+                0x08000d74      0x2e8 build/sensor.o
+                0x08000d74                sensor_filter
+ .text.display_init
+                0x0800105c      0x2a0 build/display.o
+                0x0800105c                display_init
+ .text.display_draw_text
+                0x080012fc      0x6f4 build/display.o
+                0x080012fc                display_draw_text
+ .text.display_flush
+                0x080019f0      0x1d8 build/display.o
+                0x080019f0                display_flush
+ .text.ui_render
+                0x08001bc8      0x9a4 build/ui.o
+                0x08001bc8                ui_render
+ .text.ui_format_temperature
+                0x0800256c      0x18c build/ui.o
+                0x0800256c                ui_format_temperature
+ .text.ble_stack_init
+                0x080026f8      0x7a0 build/ble.o
+                0x080026f8                ble_stack_init
+ .text.ble_stack_run
+                0x08002e98     0x1c78 build/ble.o
+                0x08002e98                ble_stack_run
+ .text.ble_gatt_handle
+                0x08004b10     0x1384 build/ble.o
+                0x08004b10                ble_gatt_handle
+ .text.uart_init
+                0x08005e94       0xd8 build/uart.o
+                0x08005e94                uart_init
+ .text.uart_write
+                0x08005f6c       0x9c build/uart.o
+                0x08005f6c                uart_write
+ .text.USART2_IRQHandler
+                0x08006008       0xb4 build/uart.o
+                0x08006008                USART2_IRQHandler
+ .text.gpio_init
+                0x080060bc      0x168 build/hal_gpio.o
+                0x080060bc                gpio_init
+ .text.i2c_init
+                0x08006224      0x1a0 build/hal_i2c.o
+                0x08006224                i2c_init
+ .text.i2c_transfer
+                0x080063c4      0x3cc build/hal_i2c.o
+                0x080063c4                i2c_transfer
+ .text.spi_init
+                0x08006790      0x150 build/hal_spi.o
+                0x08006790                spi_init
+ .text.spi_write_dma
+                0x080068e0      0x228 build/hal_spi.o
+                0x080068e0                spi_write_dma
+ .text._sbrk    0x08006b08       0x6c build/syscalls.o
+                0x08006b08                _sbrk
+ .text._write   0x08006b74       0x30 build/syscalls.o
+                0x08006b74                _write
+ .text.memcpy   0x08006ba4       0x84 /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memcpy-stub.o)
+                0x08006ba4                memcpy
+ .text.memset   0x08006c28       0x10 /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memset.o)
+                0x08006c28                memset
+ .text._free_r  0x08006c38       0x9c /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-mallocr.o)
+                0x08006c38                _free_r
+ .text._malloc_r
+                0x08006cd4       0xc8 /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-mallocr.o)
+                0x08006cd4                _malloc_r
+ .text._svfprintf_r
+                0x08006d9c      0x2f0 /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf.o)
+                0x08006d9c                _svfprintf_r
+ .text._printf_i
+                0x0800708c      0x24c /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf_i.o)
+                0x0800708c                _printf_i
+ .text.__udivmoddi4
+                0x080072d8      0x2d4 /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
+                0x080072d8                __udivmoddi4
+ .text          0x080075ac        0x0 /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/crtend.o
+ *(.glue_7)
+ .glue_7        0x080075ac        0x0 linker stubs
+                0x080075ac                . = ALIGN (0x4)
+                0x080075ac                _etext = .
+
+.rodata         0x080075ac     0x3704
+ *(.rodata)
+ *(.rodata*)
+ .rodata.font_8x16
+                0x080075ac     0x2600 build/font_8x16.o
+                0x080075ac                font_8x16
+ .rodata.ui_strings
+                0x08009bac      0x9a0 build/ui.o
+                0x08009bac                ui_strings
+ .rodata.ble_gatt_table
+                0x0800a54c      0x6e0 build/ble.o
+                0x0800a54c                ble_gatt_table
+ .rodata.sensor_coefficients
+                0x0800ac2c       0x60 build/sensor.o
+ .rodata._svfprintf_r.str1.1
+                0x0800ac8c       0x24 /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf.o)
+                0x0800acb0                . = ALIGN (0x4)
+
+.ARM.exidx      0x0800acb0        0x8
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+ .ARM.exidx     0x0800acb0        0x8 /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
+
+.init_array     0x0800acb8        0x4
+                0x0800acb8                PROVIDE (__init_array_start = .)
+ KEEP (*(SORT_BY_NAME(.init_array.*)))
+ KEEP (*(.init_array*))
+ .init_array    0x0800acb8        0x4 /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/crtbegin.o
+                0x0800acbc                PROVIDE (__init_array_end = .)
+
+.fini_array     0x0800acbc        0x4
+                0x0800acbc                PROVIDE (__fini_array_start = .)
+ KEEP (*(SORT_BY_NAME(.fini_array.*)))
+ KEEP (*(.fini_array*))
+ .fini_array    0x0800acbc        0x4 /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/crtbegin.o
+                0x0800acc0                PROVIDE (__fini_array_end = .)
+                0x0800acc0                _sidata = LOADADDR (.data)
+
+.data           0x20000000      0x194 load address 0x0800acc0
+                0x20000000                _sdata = .
+ *(.data)
+ *(.data*)
+ .data.app_settings
+                0x20000000       0x10 build/main.o
+                0x20000000                app_settings
+ .data.ble_config
+                0x20000010      0x120 build/ble.o
+                0x20000010                ble_config
+ .data._impure_ptr
+                0x20000130        0x4 /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-impure.o)
+                0x20000130                _impure_ptr
+ .data.impure_data
+                0x20000134       0x60 /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-impure.o)
+                0x20000194                . = ALIGN (0x4)
+                0x20000194                _edata = .
+
+.bss            0x20000194     0x2d2c
+                0x20000194                _sbss = .
+                0x20000194                __bss_start__ = _sbss
+ *(.bss)
+ *(.bss*)
+ .bss.app_state
+                0x20000194      0x120 build/main.o
+                0x20000194                app_state
+ .bss.sensor_history
+                0x200002b4      0xc00 build/sensor.o
+                0x200002b4                sensor_history
+ .bss.framebuffer
+                0x20000eb4      0x400 build/display.o
+                0x20000eb4                framebuffer
+ .bss.ui_scratch
+                0x200012b4      0x700 build/ui.o
+                0x200012b4                ui_scratch
+ .bss.ble_rx_pool
+                0x200019b4      0x800 build/ble.o
+                0x200019b4                ble_rx_pool
+ .bss.ble_tx_queue
+                0x200021b4      0x400 build/ble.o
+                0x200021b4                ble_tx_queue
+ .bss.uart_rx_ring
+                0x200025b4      0x900 build/uart.o
+                0x200025b4                uart_rx_ring
+ .bss.heap_end  0x20002eb4        0x4 build/syscalls.o
+ .bss.__malloc_free_list
+                0x20002eb8        0x4 /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-mallocr.o)
+                0x20002eb8                __malloc_free_list
+ .bss.__malloc_sbrk_start
+                0x20002ebc        0x4 /opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-mallocr.o)
+                0x20002ebc                __malloc_sbrk_start
+ *(COMMON)
+                0x20002ec0                . = ALIGN (0x4)
+                0x20002ec0                _ebss = .
+                0x20002ec0                __bss_end__ = _ebss
+
+._user_heap_stack
+                0x20002ec0      0x600
+                0x20002ec0                . = ALIGN (0x8)
+                [!provide]                PROVIDE (end = .)
+                0x20002ec0                PROVIDE (_end = .)
+                0x200030c0                . = (. + _Min_Heap_Size)
+                0x200034c0                . = (. + _Min_Stack_Size)
+                0x200034c0                . = ALIGN (0x8)
+
+.ccmram         0x10000000      0xa00
+ *(.ccmram)
+ *(.ccmram*)
+ .ccmram        0x10000000      0xa00 build/sensor.o
+                0x10000000                sensor_dma_buffer
+OUTPUT(build/thermostat.elf elf32-littlearm)
+LOAD linker stubs
+
+.ARM.attributes
+                0x00000000       0x30
+ .ARM.attributes
+                0x00000000       0x22 /opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/crti.o
+ .ARM.attributes
+                0x00000022        0xe build/startup.o
+
+.comment        0x00000000       0x43
+ .comment       0x00000000       0x43 build/main.o
+
+.debug_info     0x00000000     0x9dd4
+ .debug_info    0x00000000     0x1a40 build/startup.o
+ .debug_info    0x00001a40      0xb12 build/system.o
+ .debug_info    0x00002552     0x2c3e build/main.o
+ .debug_info    0x00005190     0x1f05 build/sensor.o
+ .debug_info    0x00007095     0x21b4 build/display.o
+ .debug_info    0x00009249      0xb8b build/font_8x16.o
+
+.debug_line     0x00000000     0x3648
+ .debug_line    0x00000000      0xe10 build/startup.o
+ .debug_line    0x00000e10     0x1420 build/system.o
+ .debug_line    0x00002230     0x1418 build/main.o

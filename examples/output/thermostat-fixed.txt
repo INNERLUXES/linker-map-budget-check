@@ -1,0 +1,67 @@
+linker-map-budget-check: examples/thermostat-fixed.map
+map: GNU ld, 3 regions, 311 lines (269 read, 21 skipped, 21 blank, 0 not parsed), 10 output sections in a region, 0 outside every region, 4 not allocated, 75 input sections from 24 objects
+limits: near full above 90%, an object above 25% of a region, top 5
+areas:
+  Map file         pass  no finding
+  Budget           pass  no finding
+  Stack and heap   pass  no finding
+  Placement        info  data-counted-twice x1
+  Largest objects  info  top-objects x3
+  Growth           off   no --baseline given
+regions:
+  region  origin      length  budget    used    free    use  attributes
+  FLASH   0x08000000  65,536  65,536  44,628  20,908  68.1%  xr
+  RAM     0x20000000  20,480  20,480  13,504   6,976  65.9%  xrw
+  CCMRAM  0x10000000  65,536  65,536   2,560  62,976   3.9%  rw
+largest in FLASH:
+   bytes  share  object
+  16,284  24.8%  build/ble.o
+   9,728  14.8%  build/font_8x16.o
+   5,328   8.1%  build/ui.o
+   2,924   4.5%  build/display.o
+   2,076   3.2%  build/sensor.o
+  bytes  share  archive
+  1,980   3.0%  libc_nano.a (6 members)
+    732   1.1%  libgcc.a (1 member)
+largest in RAM:
+  bytes  share  object
+  3,360  16.4%  build/ble.o
+  3,072  15.0%  build/sensor.o
+  2,304  11.3%  build/uart.o
+  1,792   8.8%  build/ui.o
+  1,024   5.0%  build/display.o
+  bytes  share  archive
+    108   0.5%  libc_nano.a (2 members)
+largest in CCMRAM:
+  bytes  share  object
+  2,560   3.9%  build/sensor.o
+findings: 0 error, 0 warning, 4 info
+
+Placement (1 finding)
+
+  INFO     data-counted-twice  examples/thermostat-fixed.map section .data  line 217
+           The output section ".data" (404 bytes) runs in "RAM" at 0x20000000 and is loaded from "FLASH" at 0x0800acc0. Its initial values are stored in "FLASH" and copied to "RAM" by the startup code, so the same 404 bytes count in both regions.
+           basis: "An example of when they might be different is when a data section is loaded into ROM, and then copied into RAM when the program starts up (this technique is often used to initialize global variables in a ROM based system)." (Basic Linker Script Concepts, https://sourceware.org/binutils/docs/ld/Basic-Script-Concepts.html)
+           basis: "In this case the ROM address would be the LMA, and the RAM address would be the VMA." (Basic Linker Script Concepts, https://sourceware.org/binutils/docs/ld/Basic-Script-Concepts.html)
+           fix: Nothing to fix; this is how initialised data works. To save space in both regions, make data that never changes const (it then stays in "FLASH" only) and leave data that starts at zero uninitialised (it then goes to .bss, which takes no space in "FLASH").
+
+Largest objects (3 findings)
+
+  INFO     top-objects  examples/thermostat-fixed.map region FLASH  line 31
+           The largest objects in "FLASH": build/ble.o 16,284 bytes (24.8%), build/font_8x16.o 9,728 bytes (14.8%), build/ui.o 5,328 bytes (8.1%), build/display.o 2,924 bytes (4.5%) and build/sensor.o 2,076 bytes (3.2%). The largest archives: libc_nano.a 1,980 bytes in 6 members (3.0%) and libgcc.a 732 bytes in 1 member (1.1%). Padding between input sections takes 2 bytes.
+           basis: "Where object files are mapped into memory." (-M, --print-map, https://sourceware.org/binutils/docs/ld/Options.html)
+           fix: Nothing to fix; the list shows where the bytes go. Change the length of the list with --top.
+
+  INFO     top-objects  examples/thermostat-fixed.map region RAM  line 32
+           The largest objects in "RAM": build/ble.o 3,360 bytes (16.4%), build/sensor.o 3,072 bytes (15.0%), build/uart.o 2,304 bytes (11.3%), build/ui.o 1,792 bytes (8.8%) and build/display.o 1,024 bytes (5.0%). The largest archives: libc_nano.a 108 bytes in 2 members (0.5%).
+           basis: "Where object files are mapped into memory." (-M, --print-map, https://sourceware.org/binutils/docs/ld/Options.html)
+           fix: Nothing to fix; the list shows where the bytes go. Change the length of the list with --top.
+
+  INFO     top-objects  examples/thermostat-fixed.map region CCMRAM  line 33
+           The largest objects in "CCMRAM": build/sensor.o 2,560 bytes (3.9%).
+           basis: "Where object files are mapped into memory." (-M, --print-map, https://sourceware.org/binutils/docs/ld/Options.html)
+           fix: Nothing to fix; the list shows where the bytes go. Change the length of the list with --top.
+
+note: 4 output sections hold no code or data for the target and were not counted: .ARM.attributes, .comment, .debug_info and .debug_line
+
+GATE: PASS (--fail-on warning)

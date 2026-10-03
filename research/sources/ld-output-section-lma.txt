@@ -1,0 +1,55 @@
+Source: https://sourceware.org/binutils/docs/ld/Output-Section-LMA.html
+
+### 3.6.8.2 Output Section LMA
+
+Every section has a virtual address (VMA) and a load address (LMA); see
+Basic Linker Script Concepts. The virtual address is specified by the
+see Output Section Address described earlier. The load address is
+specified by the AT or AT> keywords. Specifying a load
+address is optional.
+
+The AT keyword takes an expression as an argument. This
+specifies the exact load address of the section. The AT> keyword
+takes the name of a memory region as an argument. See MEMORY Command. The
+load address of the section is set to the next free address in the
+region, aligned to the section's alignment requirements.
+
+If neither AT nor AT> is specified for an allocatable
+section, the linker will use the following heuristic to determine the
+load address:
+
+- If the section has a specific VMA address, then this is used as
+the LMA address as well.
+
+- If the section is not allocatable then its LMA is set to its VMA.
+
+- Otherwise if a memory region can be found that is compatible
+with the current section, and this region contains at least one
+section, then the LMA is set so the difference between the
+VMA and LMA is the same as the difference between the VMA and LMA of
+the last section in the located region.
+
+- If no memory regions have been declared then a default region
+that covers the entire address space is used in the previous step.
+
+- If no suitable region could be found, or there was no previous
+section then the LMA is set equal to the VMA.
+
+This feature is designed to make it easy to build a ROM image. For
+example, the following linker script creates three output sections: one
+called '.text', which starts at 0x1000, one called
+'.mdata', which is loaded at the end of the '.text' section
+even though its VMA is 0x2000, and one called '.bss' to hold
+uninitialized data at address 0x3000. The symbol _data is
+defined with the value 0x2000, which shows that the location
+counter holds the VMA value, not the LMA value.
+
+SECTIONS
+  {
+  .text 0x1000 : { *(.text) _etext = . ; }
+  .mdata 0x2000 :
+    AT ( ADDR (.text) + SIZEOF (.text) )
+    { _data = . ; *(.data); _edata = . ;  }
+  .bss 0x3000 :
+    { _bstart = . ;  *(.bss) *(COMMON) ; _bend = . ;}
+}

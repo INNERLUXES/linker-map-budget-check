@@ -1,0 +1,122 @@
+Source: https://sourceware.org/binutils/docs/ld/MEMORY.html
+
+## 3.7 MEMORY Command
+
+The linker's default configuration permits allocation of all available
+memory. You can override this by using the MEMORY command.
+
+The MEMORY command describes the location and size of blocks of
+memory in the target. You can use it to describe which memory regions
+may be used by the linker, and which memory regions it must avoid. You
+can then assign sections to particular memory regions. The linker will
+set section addresses based on the memory regions, and will warn about
+regions that become too full. The linker will not shuffle sections
+around to fit into the available regions.
+
+A linker script may contain many uses of the MEMORY command,
+however, all memory blocks defined are treated as if they were
+specified inside a single MEMORY command. The syntax for
+MEMORY is:
+
+MEMORY
+  {
+    name [(attr)] : ORIGIN = origin, LENGTH = len
+    ...
+  }
+
+The name is a name used in the linker script to refer to the
+region. The region name has no meaning outside of the linker script.
+Region names are stored in a separate name space, and will not conflict
+with symbol names, file names, or section names. Each memory region
+must have a distinct name within the MEMORY command. However you can
+add later alias names to existing memory regions with the Assign alias names to memory regions
+command.
+
+The attr string is an optional list of attributes that specify
+whether to use a particular memory region for an input section which is
+not explicitly mapped in the linker script. As described in
+SECTIONS Command, if you do not specify an output section for some input
+section, the linker will create an output section with the same name as
+the input section. If you define region attributes, the linker will use
+them to select the memory region for the output section that it creates.
+
+The attr string must consist only of the following characters:
+
+'R'
+
+Read-only section
+
+'W'
+
+Read/write section
+
+'X'
+
+Executable section
+
+'A'
+
+Allocatable section
+
+'I'
+
+Initialized section
+
+'L'
+
+Same as 'I'
+
+'!'
+
+Invert the sense of any of the attributes that follow
+
+If an unmapped section matches any of the listed attributes other than
+'!', it will be placed in the memory region. The '!'
+attribute reverses the test for the characters that follow, so that an
+unmapped section will be placed in the memory region only if it does
+not match any of the attributes listed afterwards. Thus an attribute
+string of 'RW!X' will match any unmapped section that has either
+or both of the 'R' and 'W' attributes, but only as long as
+the section does not also have the 'X' attribute.
+
+The origin is an numerical expression for the start address of
+the memory region. The expression must evaluate to a constant and it
+cannot involve any symbols. The keyword ORIGIN may be
+abbreviated to org or o (but not, for example,
+ORG).
+
+The len is an expression for the size in bytes of the memory
+region. As with the origin expression, the expression must
+be numerical only and must evaluate to a constant. The keyword
+LENGTH may be abbreviated to len or l.
+
+In the following example, we specify that there are two memory regions
+available for allocation: one starting at '0' for 256 kilobytes,
+and the other starting at '0x40000000' for four megabytes. The
+linker will place into the 'rom' memory region every section which
+is not explicitly mapped into a memory region, and is either read-only
+or executable. The linker will place other sections which are not
+explicitly mapped into a memory region into the 'ram' memory
+region.
+
+MEMORY
+  {
+    rom (rx)  : ORIGIN = 0, LENGTH = 256K
+    ram (!rx) : org = 0x40000000, l = 4M
+  }
+
+Once you define a memory region, you can direct the linker to place
+specific output sections into that memory region by using the
+'>region' output section attribute. For example, if you have
+a memory region named 'mem', you would use '>mem' in the
+output section definition. See Output Section Region. If no address
+was specified for the output section, the linker will set the address to
+the next available address within the memory region. If the combined
+output sections directed to a memory region are too large for the
+region, the linker will issue an error message.
+
+It is possible to access the origin and length of a memory in an
+expression via the ORIGIN(memory) and
+LENGTH(memory) functions:
+
+  _fstack = ORIGIN(ram) + LENGTH(ram) - 4;

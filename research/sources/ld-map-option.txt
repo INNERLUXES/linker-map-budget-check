@@ -1,0 +1,109 @@
+Source: https://sourceware.org/binutils/docs/ld/Options.html
+
+-M
+
+--print-map
+
+Print a link map to the standard output. A link map provides
+information about the link, including the following:
+
+- Where object files are mapped into memory.
+
+- How common symbols are allocated.
+
+- All archive members included in the link, with a mention of the symbol
+which caused the archive member to be brought in.
+
+- The values assigned to symbols.
+
+Note - symbols whose values are computed by an expression which
+involves a reference to a previous value of the same symbol may not
+have correct result displayed in the link map. This is because the
+linker discards intermediate results and only retains the final value
+of an expression. Under such circumstances the linker will display
+the final value enclosed by square brackets. Thus for example a
+linker script containing:
+
+   foo = 1
+   foo = foo * 4
+   foo = foo + 8
+
+will produce the following output in the link map if the -M
+option is used:
+
+   0x00000001                foo = 0x1
+   [0x0000000c]                foo = (foo * 0x4)
+   [0x0000000c]                foo = (foo + 0x8)
+
+See Expressions in Linker Scripts for more information about expressions in linker
+scripts.
+
+- How GNU properties are merged.
+
+When the linker merges input .note.gnu.property sections into one output
+.note.gnu.property section, some properties are removed or updated.
+These actions are reported in the link map. For example:
+
+Removed property 0xc0000002 to merge foo.o (0x1) and bar.o (not found)
+
+This indicates that property 0xc0000002 is removed from output when
+merging properties in foo.o, whose property 0xc0000002 value
+is 0x1, and bar.o, which doesn't have property 0xc0000002.
+
+Updated property 0xc0010001 (0x1) to merge foo.o (0x1) and bar.o (0x1)
+
+This indicates that property 0xc0010001 value is updated to 0x1 in output
+when merging properties in foo.o, whose 0xc0010001 property value
+is 0x1, and bar.o, whose 0xc0010001 property value is 0x1.
+
+- On some ELF targets, a list of fixups inserted by --relax
+
+foo.o: Adjusting branch at 0x00000008 towards "far" in section .text
+
+This indicates that the branch at 0x00000008 in foo.o, targeting
+the symbol "far" in section .text, has been replaced by a trampoline.
+
+--print-memory-usage
+
+Print used size, total size and used size of memory regions created with
+the MEMORY Command command. This is useful on embedded targets to have a
+quick view of amount of free memory. The format of the output has one
+headline and one line per region. It is both human readable and easily
+parsable by tools. Here is an example of an output:
+
+Memory region         Used Size  Region Size  %age Used
+             ROM:        256 KB         1 MB     25.00%
+             RAM:          32 B         2 GB      0.00%
+
+Note: if you want to find out about the memory usage of the linker
+itself, then the --stats option will do this.
+
+-Map=mapfile
+
+Print a link map to the file mapfile. See the description of the
+-M option, above. If mapfile is just the character
+- then the map will be written to stdout.
+
+Specifying a directory as mapfile causes the linker map to be
+written as a file inside the directory. Normally name of the file
+inside the directory is computed as the basename of the output
+file with .map appended. If however the special character
+% is used then this will be replaced by the full path of the
+output file. Additionally if there are any characters after the
+% symbol then .map will no longer be appended.
+
+ -o foo.exe -Map=bar                  [Creates ./bar]
+ -o ../dir/foo.exe -Map=bar           [Creates ./bar]
+ -o foo.exe -Map=../dir               [Creates ../dir/foo.exe.map]
+ -o ../dir2/foo.exe -Map=../dir       [Creates ../dir/foo.exe.map]
+ -o foo.exe -Map=%                    [Creates ./foo.exe.map]
+ -o ../dir/foo.exe -Map=%             [Creates ../dir/foo.exe.map]
+ -o foo.exe -Map=%.bar                [Creates ./foo.exe.bar]
+ -o ../dir/foo.exe -Map=%.bar         [Creates ../dir/foo.exe.bar]
+ -o ../dir2/foo.exe -Map=../dir/%     [Creates ../dir/../dir2/foo.exe.map]
+ -o ../dir2/foo.exe -Map=../dir/%.bar [Creates ../dir/../dir2/foo.exe.bar]
+
+It is an error to specify more than one % character.
+
+If the map file already exists then it will be overwritten by this
+operation.

@@ -1,0 +1,18 @@
+             VMA              LMA     Size Align Out     In      Symbol
+               0                0  8000000     1 . = 0x08000000
+         8000000          8000000      188     4 .isr_vector
+         8000000          8000000      188     4         build/startup.o:(.isr_vector)
+         8000000          8000000        0     1                 g_pfnVectors
+         8000188          8000188     a8e8     4 .text
+         8000188          8000188       50     4         build/startup.o:(.text.Reset_Handler)
+         8000188          8000188        0     1                 Reset_Handler
+         80001d8          80001d8      2c8     4         build/main.o:(.text.main)
+         80001d8          80001d8        0     1                 main
+         80004a0          80004a0     1c78     4         build/ble.o:(.text.ble_stack_run)
+         80004a0          80004a0        0     1                 ble_stack_run
+        20000000          800aa70      194     4 .data
+        20000000          800aa70       10     4         build/main.o:(.data.app_settings)
+        20000000          800aa70        0     1                 app_settings
+        20000194         20000194     3324     4 .bss
+        20000194         20000194      120     4         build/main.o:(.bss.app_state)
+        20000194         20000194        0     1                 app_state

@@ -1,0 +1,51 @@
+Source: https://sourceware.org/binutils/docs/ld/Basic-Script-Concepts.html
+
+## 3.1 Basic Linker Script Concepts
+
+We need to define some basic concepts and vocabulary in order to
+describe the linker script language.
+
+The linker combines input files into a single output file. The output
+file and each input file are in a special data format known as an
+object file format. Each file is called an object file.
+The output file is often called an executable, but for our
+purposes we will also call it an object file. Each object file has,
+among other things, a list of sections. We sometimes refer to a
+section in an input file as an input section; similarly, a section
+in the output file is an output section.
+
+Each section in an object file has a name and a size. Most sections
+also have an associated block of data, known as the section
+contents. A section may be marked as loadable, which means that
+the contents should be loaded into memory when the output file is run.
+A section with no contents may be allocatable, which means that an
+area in memory should be set aside, but nothing in particular should be
+loaded there (in some cases this memory must be zeroed out). A section
+which is neither loadable nor allocatable typically contains some sort
+of debugging information.
+
+Every loadable or allocatable output section has two addresses. The
+first is the VMA, or virtual memory address. This is the address
+the section will have when the output file is run. The second is the
+LMA, or load memory address. This is the address at which the
+section will be loaded. In most cases the two addresses will be the
+same. An example of when they might be different is when a data section
+is loaded into ROM, and then copied into RAM when the program starts up
+(this technique is often used to initialize global variables in a ROM
+based system). In this case the ROM address would be the LMA, and the
+RAM address would be the VMA.
+
+You can see the sections in an object file by using the objdump
+program with the '-h' option.
+
+Every object file also has a list of symbols, known as the
+symbol table. A symbol may be defined or undefined. Each symbol
+has a name, and each defined symbol has an address, among other
+information. If you compile a C or C++ program into an object file, you
+will get a defined symbol for every defined function and global or
+static variable. Every undefined function or global variable which is
+referenced in the input file will become an undefined symbol.
+
+You can see the symbols in an object file by using the nm
+program, or by using the objdump program with the '-t'
+option.

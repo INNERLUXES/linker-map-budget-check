@@ -1,0 +1,444 @@
+{
+  "tool": "linker-map-budget-check",
+  "version": "1.0.0",
+  "map": {
+    "file": "examples/thermostat.map",
+    "baseline": null,
+    "format": "gnu-ld",
+    "lines": 329,
+    "read": 278,
+    "skipped": 31,
+    "blank": 20,
+    "unparsed": 0,
+    "regions": 2,
+    "outputSections": {
+      "inRegion": 8,
+      "outsideRegions": 1,
+      "notAllocated": 4,
+      "empty": 0
+    },
+    "inputSections": 81,
+    "objects": 29,
+    "symbols": 80,
+    "warnPercent": 90,
+    "maxObject": "25%",
+    "top": 5,
+    "maxGrowth": null
+  },
+  "areas": [
+    {
+      "id": "map",
+      "title": "Map file",
+      "result": "pass",
+      "detail": "no finding",
+      "findings": 0
+    },
+    {
+      "id": "budget",
+      "title": "Budget",
+      "result": "fail",
+      "detail": "region-over-budget x1, region-near-full x1",
+      "findings": 2
+    },
+    {
+      "id": "reserve",
+      "title": "Stack and heap",
+      "result": "warn",
+      "detail": "no-stack-reserve x1, no-heap-reserve x1",
+      "findings": 2
+    },
+    {
+      "id": "placement",
+      "title": "Placement",
+      "result": "warn",
+      "detail": "orphan-section x1, data-counted-twice x1",
+      "findings": 2
+    },
+    {
+      "id": "size",
+      "title": "Largest objects",
+      "result": "warn",
+      "detail": "large-input-section x2, top-objects x2",
+      "findings": 4
+    },
+    {
+      "id": "growth",
+      "title": "Growth",
+      "result": "off",
+      "detail": "no --baseline given",
+      "findings": 0
+    }
+  ],
+  "regions": [
+    {
+      "name": "FLASH",
+      "origin": "0x08000000",
+      "length": 65536,
+      "budget": 65536,
+      "used": 66124,
+      "run": 65720,
+      "load": 404,
+      "free": -588,
+      "percent": "100.9%",
+      "attributes": "xr",
+      "line": 41
+    },
+    {
+      "name": "RAM",
+      "origin": "0x20000000",
+      "length": 20480,
+      "budget": 20480,
+      "used": 19136,
+      "run": 19136,
+      "load": 0,
+      "free": 1344,
+      "percent": "93.4%",
+      "attributes": "xrw",
+      "line": 42
+    }
+  ],
+  "largest": [
+    {
+      "region": "FLASH",
+      "objects": [
+        {
+          "name": "build/font_8x16.o",
+          "path": "build/font_8x16.o",
+          "bytes": 22528,
+          "share": "34.4%"
+        },
+        {
+          "name": "build/ble.o",
+          "path": "build/ble.o",
+          "bytes": 16284,
+          "share": "24.8%"
+        },
+        {
+          "name": "build/ui.o",
+          "path": "build/ui.o",
+          "bytes": 5328,
+          "share": "8.1%"
+        },
+        {
+          "name": "build/display.o",
+          "path": "build/display.o",
+          "bytes": 2924,
+          "share": "4.5%"
+        },
+        {
+          "name": "libc_nano.a(libc_a-dtoa.o)",
+          "path": "/opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-dtoa.o)",
+          "bytes": 2828,
+          "share": "4.3%"
+        }
+      ],
+      "archives": [
+        {
+          "name": "libc_nano.a",
+          "path": "/opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a",
+          "bytes": 8432,
+          "members": 9,
+          "share": "12.9%"
+        },
+        {
+          "name": "libgcc.a",
+          "path": "/opt/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+fp/hard/libgcc.a",
+          "bytes": 2976,
+          "members": 3,
+          "share": "4.5%"
+        }
+      ]
+    },
+    {
+      "region": "RAM",
+      "objects": [
+        {
+          "name": "build/ble.o",
+          "path": "build/ble.o",
+          "bytes": 10528,
+          "share": "51.4%"
+        },
+        {
+          "name": "build/sensor.o",
+          "path": "build/sensor.o",
+          "bytes": 3072,
+          "share": "15.0%"
+        },
+        {
+          "name": "build/uart.o",
+          "path": "build/uart.o",
+          "bytes": 2304,
+          "share": "11.3%"
+        },
+        {
+          "name": "build/ui.o",
+          "path": "build/ui.o",
+          "bytes": 1792,
+          "share": "8.8%"
+        },
+        {
+          "name": "build/display.o",
+          "path": "build/display.o",
+          "bytes": 1024,
+          "share": "5.0%"
+        }
+      ],
+      "archives": [
+        {
+          "name": "libc_nano.a",
+          "path": "/opt/arm-gnu-toolchain/arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a",
+          "bytes": 108,
+          "members": 2,
+          "share": "0.5%"
+        }
+      ]
+    }
+  ],
+  "growth": null,
+  "findings": [
+    {
+      "id": "region-over-budget",
+      "severity": "error",
+      "area": "budget",
+      "file": "examples/thermostat.map",
+      "where": "region FLASH",
+      "line": 41,
+      "subject": "FLASH",
+      "message": "The region \"FLASH\" holds 66,124 bytes, more than its length of 65,536 bytes: 588 bytes too many (100.9%). It holds the output sections .isr_vector, .text, .rodata, .ARM.exidx, .init_array and .fini_array (65,720 bytes) and the load image of .data (404 bytes). The last byte placed in it ends at 0x0801024c, 588 bytes past the end of the region at 0x08010000.",
+      "fix": "Make the code or data in \"FLASH\" smaller, starting with the largest objects (build/font_8x16.o (22,528 bytes), build/ble.o (16,284 bytes) and build/ui.o (5,328 bytes)), or move a section to another region. Raise the budget only if the part really has more room.",
+      "basis": [
+        {
+          "text": "If the combined output sections directed to a memory region are too large for the region, the linker will issue an error message.",
+          "section": "MEMORY Command",
+          "source": "https://sourceware.org/binutils/docs/ld/MEMORY.html"
+        },
+        {
+          "text": "The len is an expression for the size in bytes of the memory region.",
+          "section": "MEMORY Command",
+          "source": "https://sourceware.org/binutils/docs/ld/MEMORY.html"
+        }
+      ],
+      "source": "https://sourceware.org/binutils/docs/ld/MEMORY.html"
+    },
+    {
+      "id": "region-near-full",
+      "severity": "warning",
+      "area": "budget",
+      "file": "examples/thermostat.map",
+      "where": "region RAM",
+      "line": 42,
+      "subject": "RAM",
+      "message": "The region \"RAM\" holds 19,136 bytes of its length of 20,480 bytes (93.4%), above the warning level of 90%. 1,344 bytes are free. It holds the output sections .data and .bss (19,136 bytes).",
+      "fix": "Plan for the next features now: find what can shrink in \"RAM\" (the largest objects are build/ble.o (10,528 bytes), build/sensor.o (3,072 bytes) and build/uart.o (2,304 bytes)), or set a budget with --budget that keeps room for them.",
+      "basis": [
+        {
+          "text": "The linker will set section addresses based on the memory regions, and will warn about regions that become too full.",
+          "section": "MEMORY Command",
+          "source": "https://sourceware.org/binutils/docs/ld/MEMORY.html"
+        },
+        {
+          "text": "This is useful on embedded targets to have a quick view of amount of free memory.",
+          "section": "--print-memory-usage",
+          "source": "https://sourceware.org/binutils/docs/ld/Options.html"
+        }
+      ],
+      "source": "https://sourceware.org/binutils/docs/ld/MEMORY.html"
+    },
+    {
+      "id": "no-stack-reserve",
+      "severity": "warning",
+      "area": "reserve",
+      "file": "examples/thermostat.map",
+      "where": "stack",
+      "line": 70,
+      "subject": "stack",
+      "message": "The map shows no space set aside for the stack. The tool looked for an output section with \"stack\" in its name and a size above zero, or a step of the location counter by _Min_Stack_Size, __stack_size__, __STACK_SIZE, __stack_size and 5 more inside a section, and found none. It found _estack = 0x20005000 (line 70), which says where the stack is, not how much room it gets. The linker checks only what is placed in a region, so the stack is not in the totals above and can grow into the data below it with no error at link time.",
+      "fix": "Reserve the stack in the linker script: a section in RAM that steps the location counter by the stack size (for example \". = . + _Min_Stack_Size;\"), so the linker counts it and stops the link when RAM is too small.",
+      "basis": [
+        {
+          "text": "A section with no contents may be allocatable, which means that an area in memory should be set aside, but nothing in particular should be loaded there (in some cases this memory must be zeroed out).",
+          "section": "Basic Linker Script Concepts",
+          "source": "https://sourceware.org/binutils/docs/ld/Basic-Script-Concepts.html"
+        },
+        {
+          "text": "If the combined output sections directed to a memory region are too large for the region, the linker will issue an error message.",
+          "section": "MEMORY Command",
+          "source": "https://sourceware.org/binutils/docs/ld/MEMORY.html"
+        }
+      ],
+      "source": "https://sourceware.org/binutils/docs/ld/Basic-Script-Concepts.html"
+    },
+    {
+      "id": "no-heap-reserve",
+      "severity": "warning",
+      "area": "reserve",
+      "file": "examples/thermostat.map",
+      "where": "heap",
+      "line": 160,
+      "subject": "heap",
+      "message": "The firmware takes memory at run time: the map holds _sbrk (line 160) and _malloc_r (line 171). It shows no space set aside for the heap: the tool looked for an output section with \"heap\" in its name and a size above zero, or a step of the location counter by _Min_Heap_Size, __heap_size__, __HEAP_SIZE, __heap_size and 5 more inside a section, and found none. The heap is then not in the totals above, and malloc can run into the stack with no error at link time.",
+      "fix": "Reserve the heap in the linker script, as for the stack (for example \". = . + _Min_Heap_Size;\" in a section in RAM), and let _sbrk stop at the end of that space. If the firmware should not allocate at run time, remove the calls to malloc.",
+      "basis": [
+        {
+          "text": "A section with no contents may be allocatable, which means that an area in memory should be set aside, but nothing in particular should be loaded there (in some cases this memory must be zeroed out).",
+          "section": "Basic Linker Script Concepts",
+          "source": "https://sourceware.org/binutils/docs/ld/Basic-Script-Concepts.html"
+        },
+        {
+          "text": "If the combined output sections directed to a memory region are too large for the region, the linker will issue an error message.",
+          "section": "MEMORY Command",
+          "source": "https://sourceware.org/binutils/docs/ld/MEMORY.html"
+        }
+      ],
+      "source": "https://sourceware.org/binutils/docs/ld/Basic-Script-Concepts.html"
+    },
+    {
+      "id": "orphan-section",
+      "severity": "warning",
+      "area": "placement",
+      "file": "examples/thermostat.map",
+      "where": "section .ccmram",
+      "line": 300,
+      "subject": ".ccmram",
+      "message": "The output section \".ccmram\" (2,560 bytes at 0x10000000) lies outside every region of the Memory Configuration table (FLASH and RAM), so the linker did not count it against a region, and this report cannot either.",
+      "fix": "Declare the memory it is meant for with the MEMORY command and place the section there with \">REGION\", or move its input sections into a section that is placed in a region.",
+      "basis": [
+        {
+          "text": "Once you define a memory region, you can direct the linker to place specific output sections into that memory region by using the '>region' output section attribute.",
+          "section": "MEMORY Command",
+          "source": "https://sourceware.org/binutils/docs/ld/MEMORY.html"
+        },
+        {
+          "text": "Orphan sections are sections present in the input files which are not explicitly placed into the output file by the linker script.",
+          "section": "Orphan Sections",
+          "source": "https://sourceware.org/binutils/docs/ld/Orphan-Sections.html"
+        }
+      ],
+      "source": "https://sourceware.org/binutils/docs/ld/MEMORY.html"
+    },
+    {
+      "id": "data-counted-twice",
+      "severity": "info",
+      "area": "placement",
+      "file": "examples/thermostat.map",
+      "where": "section .data",
+      "line": 244,
+      "subject": ".data",
+      "message": "The output section \".data\" (404 bytes) runs in \"RAM\" at 0x20000000 and is loaded from \"FLASH\" at 0x080100b8. Its initial values are stored in \"FLASH\" and copied to \"RAM\" by the startup code, so the same 404 bytes count in both regions.",
+      "fix": "Nothing to fix; this is how initialised data works. To save space in both regions, make data that never changes const (it then stays in \"FLASH\" only) and leave data that starts at zero uninitialised (it then goes to .bss, which takes no space in \"FLASH\").",
+      "basis": [
+        {
+          "text": "An example of when they might be different is when a data section is loaded into ROM, and then copied into RAM when the program starts up (this technique is often used to initialize global variables in a ROM based system).",
+          "section": "Basic Linker Script Concepts",
+          "source": "https://sourceware.org/binutils/docs/ld/Basic-Script-Concepts.html"
+        },
+        {
+          "text": "In this case the ROM address would be the LMA, and the RAM address would be the VMA.",
+          "section": "Basic Linker Script Concepts",
+          "source": "https://sourceware.org/binutils/docs/ld/Basic-Script-Concepts.html"
+        }
+      ],
+      "source": "https://sourceware.org/binutils/docs/ld/Basic-Script-Concepts.html"
+    },
+    {
+      "id": "large-input-section",
+      "severity": "warning",
+      "area": "size",
+      "file": "examples/thermostat.map",
+      "where": "object build/font_8x16.o in FLASH",
+      "line": 207,
+      "subject": "build/font_8x16.o",
+      "message": "build/font_8x16.o takes 22,528 bytes of \"FLASH\" (34.4% of 65,536 bytes), more than the limit of 16,384 bytes (25% of 65,536 bytes, --max-object). Its largest input section is .rodata.font_8x16 (22,528 bytes at 0x080096dc).",
+      "fix": "Check whether all of it is needed: a buffer or a table that could be smaller, a library function that pulls in more than it is worth (printf with floating point is a common one), or code and data that -ffunction-sections, -fdata-sections and --gc-sections would drop.",
+      "basis": [
+        {
+          "text": "Where object files are mapped into memory.",
+          "section": "-M, --print-map",
+          "source": "https://sourceware.org/binutils/docs/ld/Options.html"
+        },
+        {
+          "text": "All archive members included in the link, with a mention of the symbol which caused the archive member to be brought in.",
+          "section": "-M, --print-map",
+          "source": "https://sourceware.org/binutils/docs/ld/Options.html"
+        }
+      ],
+      "source": "https://sourceware.org/binutils/docs/ld/Options.html"
+    },
+    {
+      "id": "large-input-section",
+      "severity": "warning",
+      "area": "size",
+      "file": "examples/thermostat.map",
+      "where": "object build/ble.o in RAM",
+      "line": 251,
+      "subject": "build/ble.o",
+      "message": "build/ble.o takes 10,528 bytes of \"RAM\" (51.4% of 20,480 bytes), more than the limit of 5,120 bytes (25% of 20,480 bytes, --max-object). Its largest input section is .bss.ble_rx_pool (8,192 bytes at 0x200019b4).",
+      "fix": "Check whether all of it is needed: a buffer or a table that could be smaller, a library function that pulls in more than it is worth (printf with floating point is a common one), or code and data that -ffunction-sections, -fdata-sections and --gc-sections would drop.",
+      "basis": [
+        {
+          "text": "Where object files are mapped into memory.",
+          "section": "-M, --print-map",
+          "source": "https://sourceware.org/binutils/docs/ld/Options.html"
+        },
+        {
+          "text": "All archive members included in the link, with a mention of the symbol which caused the archive member to be brought in.",
+          "section": "-M, --print-map",
+          "source": "https://sourceware.org/binutils/docs/ld/Options.html"
+        }
+      ],
+      "source": "https://sourceware.org/binutils/docs/ld/Options.html"
+    },
+    {
+      "id": "top-objects",
+      "severity": "info",
+      "area": "size",
+      "file": "examples/thermostat.map",
+      "where": "region FLASH",
+      "line": 41,
+      "subject": "FLASH",
+      "message": "The largest objects in \"FLASH\": build/font_8x16.o 22,528 bytes (34.4%), build/ble.o 16,284 bytes (24.8%), build/ui.o 5,328 bytes (8.1%), build/display.o 2,924 bytes (4.5%) and libc_nano.a(libc_a-dtoa.o) 2,828 bytes (4.3%). The largest archives: libc_nano.a 8,432 bytes in 9 members (12.9%) and libgcc.a 2,976 bytes in 3 members (4.5%). Padding between input sections takes 2 bytes.",
+      "fix": "Nothing to fix; the list shows where the bytes go. Change the length of the list with --top.",
+      "basis": [
+        {
+          "text": "Where object files are mapped into memory.",
+          "section": "-M, --print-map",
+          "source": "https://sourceware.org/binutils/docs/ld/Options.html"
+        }
+      ],
+      "source": "https://sourceware.org/binutils/docs/ld/Options.html"
+    },
+    {
+      "id": "top-objects",
+      "severity": "info",
+      "area": "size",
+      "file": "examples/thermostat.map",
+      "where": "region RAM",
+      "line": 42,
+      "subject": "RAM",
+      "message": "The largest objects in \"RAM\": build/ble.o 10,528 bytes (51.4%), build/sensor.o 3,072 bytes (15.0%), build/uart.o 2,304 bytes (11.3%), build/ui.o 1,792 bytes (8.8%) and build/display.o 1,024 bytes (5.0%). The largest archives: libc_nano.a 108 bytes in 2 members (0.5%).",
+      "fix": "Nothing to fix; the list shows where the bytes go. Change the length of the list with --top.",
+      "basis": [
+        {
+          "text": "Where object files are mapped into memory.",
+          "section": "-M, --print-map",
+          "source": "https://sourceware.org/binutils/docs/ld/Options.html"
+        }
+      ],
+      "source": "https://sourceware.org/binutils/docs/ld/Options.html"
+    }
+  ],
+  "notes": [
+    "4 output sections hold no code or data for the target and were not counted: .ARM.attributes, .comment, .debug_info and .debug_line",
+    ".ARM.exidx (FLASH), .init_array (FLASH), .fini_array (FLASH) and .data (FLASH) start past the end of a full region and were counted in it (docs/method.md)"
+  ],
+  "counts": {
+    "error": 1,
+    "warning": 6,
+    "info": 3
+  },
+  "gate": {
+    "failOn": "warning",
+    "pass": false,
+    "reason": "1 error, 6 warnings"
+  }
+}

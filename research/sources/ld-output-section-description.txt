@@ -1,0 +1,34 @@
+Source: https://sourceware.org/binutils/docs/ld/Output-Section-Description.html
+
+### 3.6.1 Output Section Description
+
+The full description of an output section looks like this:
+
+section [address] [(type)] :
+  [AT(lma)]
+  [ALIGN(section_align) | ALIGN_WITH_INPUT]
+  [SUBALIGN(subsection_align)]
+  [constraint]
+  {
+    output-section-command
+    output-section-command
+    ...
+  } [>region] [AT>lma_region] [:phdr :phdr ...] [=fillexp] [,]
+
+Most output sections do not use most of the optional section attributes.
+
+The whitespace around section is required, so that the section
+name is unambiguous. The colon and the curly braces are also required.
+The comma at the end may be required if a fillexp is used and
+the next sections-command looks like a continuation of the expression.
+The line breaks and other white space are optional.
+
+Each output-section-command may be one of the following:
+
+- a symbol assignment (see Assigning Values to Symbols)
+
+- an input section description (see Input Section Description)
+
+- data values to include directly (see Output Section Data)
+
+- a special output section keyword (see Output Section Keywords)

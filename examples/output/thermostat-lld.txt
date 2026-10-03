@@ -1,0 +1,20 @@
+linker-map-budget-check: examples/thermostat-lld.map
+map: not a GNU ld map (lld), 18 lines, not read
+areas:
+  Map file         fail  unknown-format x1
+  Budget           off   not a GNU ld map
+  Stack and heap   off   not a GNU ld map
+  Placement        off   not a GNU ld map
+  Largest objects  off   not a GNU ld map
+  Growth           off   no --baseline given
+findings: 1 error, 0 warning, 0 info
+
+Map file (1 finding)
+
+  ERROR    unknown-format  examples/thermostat-lld.map map  line 1
+           The file is an LLVM lld map file. The tool reads only map files that GNU ld writes with -Map=<file> (from arm-none-eabi-gcc, riscv64-unknown-elf-gcc, avr-gcc and other GNU toolchains), which hold a "Memory Configuration" table and a "Linker script and memory map" part. Nothing else was checked.
+           basis: "Print a link map to the file mapfile." (-Map=mapfile, https://sourceware.org/binutils/docs/ld/Options.html)
+           basis: "A link map provides information about the link, including the following:" (-M, --print-map, https://sourceware.org/binutils/docs/ld/Options.html)
+           fix: Give the map that GNU ld writes when the firmware is linked with -Wl,-Map=firmware.map. Maps of LLVM lld, IAR and Keil are out of scope (docs/limits.md).
+
+GATE: FAIL - 1 error

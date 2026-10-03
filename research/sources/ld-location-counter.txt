@@ -1,0 +1,35 @@
+Source: https://sourceware.org/binutils/docs/ld/Location-Counter.html
+
+### 3.10.5 The Location Counter
+
+The special linker variable dot '.' always contains the
+current output location counter. Since the . always refers to a
+location in an output section, it may only appear in an expression
+within a SECTIONS command. The . symbol may appear
+anywhere that an ordinary symbol is allowed in an expression.
+
+Assigning a value to . will cause the location counter to be
+moved. This may be used to create holes in the output section. The
+location counter may not be moved backwards inside an output section,
+and may not be moved backwards outside of an output section if so
+doing creates areas with overlapping LMAs.
+
+SECTIONS
+{
+  output :
+    {
+      file1(.text)
+      . = . + 1000;
+      file2(.text)
+      . += 1000;
+      file3(.text)
+    } = 0x12345678;
+}
+
+In the previous example, the '.text' section from file1 is
+located at the beginning of the output section 'output'. It is
+followed by a 1000 byte gap. Then the '.text' section from
+file2 appears, also with a 1000 byte gap following before the
+'.text' section from file3. The notation '= 0x12345678'
+specifies what data to write in the gaps (see Output Section Fill).
+
